@@ -56,10 +56,14 @@ const Timer = forwardRef((props, ref) => {
 
   return (
     <div className="box">
-      <div className="time">
-        <span>{min} </span>
-        <span> : {sec}</span>
-        <p className="text">Min Sec</p>
+      <div className="innerL">
+        <span>{min}</span>
+        <h3>Min</h3>
+      </div>
+      <span className="semiColon"> : </span>
+      <div className="innerR">
+        <span>{sec}</span>
+        <h3>sec</h3>
       </div>
       {/* <div>
         <button onClick={onStartHandler}>{isActive ? 'Pause' : 'Start'}</button>
