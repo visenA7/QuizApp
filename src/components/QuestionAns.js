@@ -17,11 +17,10 @@ const QuestionAns = ({ apiResult }) => {
   const currentRef = useRef();
 
   useEffect(() => {
-    if (childRef.current === undefined) {
-      return;
-    } else {
+    if (childRef.current !== undefined) {
       setAnswer('');
-      currentRef.current.focus();
+
+      currentRef.current.disabled = false;
     }
   }, [count]);
 
@@ -30,23 +29,22 @@ const QuestionAns = ({ apiResult }) => {
     // console.log(totalTime);
 
     childRef.current.onPauseHandler();
+    setIsAnim(true);
+    setTimeout(() => {
+      setIsAnim(false);
+
+      if (childRef.current !== undefined) {
+        currentRef.current.focus();
+        childRef.current.onStartHandler();
+      }
+    }, 3000);
 
     if (count < 5) {
       if (item.answer.toLowerCase() === answer.toLowerCase()) {
         setContentA(true);
-        setIsAnim(true);
-        setTimeout(() => {
-          setIsAnim(false);
-          childRef.current.onStartHandler();
-        }, 3000);
         setRightAns(rightAns + 1);
       } else {
         setContentA(false);
-        setIsAnim(true);
-        setTimeout(() => {
-          setIsAnim(false);
-          childRef.current.onStartHandler();
-        }, 3000);
       }
       setCount(count + 1);
     } else {
@@ -85,6 +83,7 @@ const QuestionAns = ({ apiResult }) => {
                 ref={currentRef}
                 value={answer}
                 onChange={(e) => setAnswer(e.target.value)}
+                disabled={true}
               ></input>
             </form>
             <p>Stuck ?</p>
