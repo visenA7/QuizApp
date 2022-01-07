@@ -24,7 +24,7 @@ const QuizEnd = (props) => {
           props.restart(!true);
         }}
       >
-        <span className="QText">Play Again</span>
+        <span className="QText end">Play Again</span>
       </button>
     </div>
   );

@@ -1,8 +1,4 @@
 .outer {
-  position: absolute;
-  left: 5%;
-  top: 10%;
-
   font-family: Poppins;
   font-style: normal;
   font-weight: 500;
@@ -14,16 +10,22 @@
   color: #ffffff;
 }
 
+.outer .innerL {
+  /* 75% Accuracy */
+
+  position: absolute;
+  width: 76px;
+  height: 51px;
+  left: 25%;
+  top: 10%;
+}
 .outer .innerR {
   position: absolute;
   width: 76px;
   height: 51px;
+  left: 65%;
+  top: 10%;
 }
-
-.outer .innerL {
-  /* 75% Accuracy */
-
-  position: relative;
-  width: 76px;
-  height: 51px;
+.end {
+  white-space: nowrap;
 }
