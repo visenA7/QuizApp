@@ -20,7 +20,6 @@ const QuestionAns = ({ apiResult }) => {
     if (childRef.current === undefined) {
       return;
     } else {
-      childRef.current.onStartHandler();
       setAnswer('');
       currentRef.current.focus();
     }
@@ -36,12 +35,18 @@ const QuestionAns = ({ apiResult }) => {
       if (item.answer.toLowerCase() === answer.toLowerCase()) {
         setContentA(true);
         setIsAnim(true);
-        setTimeout(5000);
+        setTimeout(() => {
+          setIsAnim(false);
+          childRef.current.onStartHandler();
+        }, 3000);
         setRightAns(rightAns + 1);
       } else {
         setContentA(false);
         setIsAnim(true);
-        setTimeout(5000);
+        setTimeout(() => {
+          setIsAnim(false);
+          childRef.current.onStartHandler();
+        }, 3000);
       }
       setCount(count + 1);
     } else {

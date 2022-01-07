@@ -8,7 +8,7 @@ import React, {
 import './timer.css';
 
 const Timer = forwardRef((props, ref) => {
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(true);
   const [sec, setSec] = useState('00');
   const [min, setMin] = useState('00');
   const [counter, setCounter] = useState(0);
