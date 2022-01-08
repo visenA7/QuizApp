@@ -27,13 +27,13 @@ const Quiz = () => {
   // console.log(result);
 
   return isActive ? (
-    <div className="my_rect">
+    <div className="showcase card">
       <QuestionAns apiResult={result} />
     </div>
   ) : (
-    <div className="my_rect">
+    <div className="showcase flex card">
       <button className="QButton" onClick={onClickHandler}>
-        <span className="QText">Start</span>
+        Start
       </button>
     </div>
   );

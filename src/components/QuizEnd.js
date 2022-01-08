@@ -6,7 +6,7 @@ const QuizEnd = (props) => {
   const avgSpeed = Math.floor(props.timeTaken / 6);
 
   return (
-    <div>
+    <div className="flex">
       <div className="outer">
         <div className="innerL">
           <span>{accuracy}</span>
@@ -24,7 +24,7 @@ const QuizEnd = (props) => {
           props.restart(!true);
         }}
       >
-        <span className="QText end">Play Again</span>
+        Play Again
       </button>
     </div>
   );

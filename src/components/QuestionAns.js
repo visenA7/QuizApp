@@ -65,7 +65,7 @@ const QuestionAns = ({ apiResult }) => {
   const renderResult = () => {
     return apiResult.map((item, index) => {
       return (
-        <div key={item._id} className="card">
+        <div key={item._id} className="main grid">
           <div className="bodyUp">
             <span>Topic</span>
             <h3>{item.category}</h3>
@@ -74,26 +74,28 @@ const QuestionAns = ({ apiResult }) => {
             <span>Question {index + 1} of 6</span>
             <h3>{item.question}</h3>
           </div>
-          <div className="bodyDn">
+          <div className="form">
             <form onSubmit={(event) => onSubmitHandler(event, item)}>
               <label>ANSWER</label>
-              <input
-                type="text"
-                placeholder="Type here"
-                ref={currentRef}
-                value={answer}
-                onChange={(e) => setAnswer(e.target.value)}
-                disabled={true}
-              ></input>
+              <div className="form-control">
+                <input
+                  type="text"
+                  placeholder="Type here"
+                  ref={currentRef}
+                  value={answer}
+                  onChange={(e) => setAnswer(e.target.value)}
+                  disabled={true}
+                ></input>
+              </div>
             </form>
-            <p>Stuck ?</p>
+            <i>Stuck ?</i>
             <button
-              className="SButton"
+              className="QButton"
               onClick={() => {
                 onSolutionClick(item);
               }}
             >
-              <i className="SText">See Solution</i>
+              See Solution
             </button>
           </div>
         </div>

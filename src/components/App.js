@@ -6,7 +6,7 @@ import Quiz from './Quiz';
 
 const App = () => {
   return (
-    <div className="BodyR">
+    <div>
       <MainPage />
       <Quiz />
     </div>

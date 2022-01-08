@@ -5,34 +5,34 @@ import './app.css';
 const MainPage = () => {
   return (
     <div>
-      <img
-        src={require('../UI/logo.png')}
-        alt="company Logo"
-        className="logoCompany"
-      />
-      <nav className="navBar">
-        <div className="navRect">
-          <a className="nav-prog" aria-current="page" href="/">
-            Programs
-          </a>
-
-          <a className="nav-live" href="/">
-            Live Projects
-          </a>
-
-          <a className="nav-com" href="/">
-            Community
-          </a>
-
-          <a className="nav-jobs" href="/">
-            Jobs
-          </a>
-
-          <a className="nav-about" href="/">
-            About
-          </a>
+      <div className="fullNav">
+        <div className="container flex">
+          <img
+            src={require('../UI/logo.png')}
+            alt="company Logo"
+            className="logoCompany"
+          />
+          <nav className="navBar">
+            <ul className="navRect">
+              <li>
+                <a href="/">Programs</a>
+              </li>
+              <li>
+                <a href="/">Live Projects</a>
+              </li>
+              <li>
+                <a href="/">Community</a>
+              </li>
+              <li>
+                <a href="/">Jobs</a>
+              </li>
+              <li>
+                <a href="/">About</a>{' '}
+              </li>
+            </ul>
+          </nav>
         </div>
-      </nav>
+      </div>
       <img
         alt="left dot"
         src={require('../UI/dots_horizontal.png')}
