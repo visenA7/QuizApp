@@ -1,33 +1,56 @@
-.box {
-  position: absolute;
-  width: 18%;
-  height: 15%;
-  top: 6%;
-  right: 3%;
-
-  font-size: 0.7em;
-  line-height: 18px;
-  white-space: nowrap;
-  text-align: center;
-
-  background: rgba(47, 47, 47, 0.36);
-  border-radius: 5px;
+.timer-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 15px;
+  transition: all 0.3s;
 }
 
-.innerL {
-  position: absolute;
-  width: 4.5rem;
-  top: 18%;
-  right: 35%;
+.timer-container.warning {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: var(--error);
+  animation: pulseWarning 1s infinite alternate;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
 }
-.innerR {
-  position: absolute;
-  width: 4.5rem;
-  top: 18%;
-  left: 35%;
+
+.timer-icon {
+  font-size: 16px;
 }
-.semiColon {
+
+.timer-text {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.5px;
+}
+
+@keyframes pulseWarning {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.04); }
+}
+
+/* Horizontal timer progress bar style if we choose to layer it */
+.timer-bar-wrapper {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
   position: absolute;
-  top: 15%;
-  left: 50%;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.timer-bar-fill {
+  height: 100%;
+  background: var(--accent-cyan);
+  transition: width 1s linear, background-color 0.3s;
+  width: 100%;
+}
+
+.timer-bar-fill.warning {
+  background: var(--error);
 }

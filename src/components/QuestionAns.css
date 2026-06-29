@@ -1,106 +1,318 @@
-/* .new {
-  height: 100%;
-} */
+.game-container {
+  max-width: 700px;
+  width: 95%;
+  margin: 40px auto;
+  position: relative;
+  animation: fadeIn 0.4s ease forwards;
+}
 
-.grid {
-  display: grid;
-  grid-template-rows: 106px 106px 106px;
+.quiz-card {
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header layout */
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  margin-bottom: 24px;
 }
 
-.bodyUp {
-  background: #ffff;
-  height: 100%;
-  padding: 10px;
-}
-.bodyMid {
-  background: #d2fcfdc5;
-  height: 100%;
-  padding: 10px;
-  /* word-break: break-word; */
-}
-.form {
-  height: 100%;
-  padding: 2px;
-  z-index: 100;
-  margin-left: 5px;
-  padding: 10px;
+.category-tag {
+  background: rgba(139, 92, 246, 0.15);
+  color: #c084fc;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.main span {
-  margin-left: 5px;
+/* Progress bar */
+.progress-container {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  margin-bottom: 32px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--gradient-main);
+  border-radius: 10px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+}
+
+.question-counter {
   font-size: 14px;
-
-  color: #b3a9a9;
-}
-.main h3 {
-  margin-left: 5px;
-  padding-top: 5px;
+  color: var(--text-muted);
   font-weight: 500;
-  font-size: 14px;
-
-  color: #2f2f2f;
+  margin-bottom: 8px;
 }
 
-.main input {
-  position: relative;
-  line-height: 2.1em;
-  width: 40%;
-  margin-top: 10px;
-  border-width: 1px;
-  border: blue;
-
-  background: #ffffff;
-  border-radius: 3px;
-}
-.main input:focus {
-  outline: blue;
-
-  outline-width: 5px;
-}
-.main label {
-  font-size: 14px;
-  line-height: 21px;
-
-  color: #ffffff;
+.question-text {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  margin-bottom: 32px;
 }
 
-.form i {
-  position: absolute;
-  bottom: 10%;
-  left: 66%;
+/* Multiple choice option cards */
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 24px;
 }
 
-.form button {
-  position: absolute;
-  left: 80%;
-  bottom: 9%;
-  padding: 6px 3px;
-}
-
-/* Start Quiz */
-
-.win {
-  position: absolute;
+.option-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1.5px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 18px 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  font-size: 16px;
+  font-weight: 500;
+  text-align: left;
+  color: var(--text-primary);
   width: 100%;
-  height: 34%;
-  top: 66%;
-
-  background: linear-gradient(91.23deg, #20622a 0%, #48b566 131.71%);
-  border-radius: 0px 0px 5px 5px;
 }
 
-.lose {
-  position: absolute;
+.option-card:hover:not(.disabled) {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.option-card.selected {
+  background: rgba(139, 92, 246, 0.12);
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.15);
+}
+
+.option-badge {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.option-card.selected .option-badge {
+  background: var(--accent-purple);
+  border-color: var(--accent-purple);
+  color: white;
+}
+
+/* Option feedback states */
+.option-card.correct {
+  background: rgba(16, 185, 129, 0.15) !important;
+  border-color: var(--success) !important;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.25) !important;
+  color: white !important;
+}
+
+.option-card.correct .option-badge {
+  background: var(--success) !important;
+  border-color: var(--success) !important;
+  color: white !important;
+}
+
+.option-card.incorrect {
+  background: rgba(239, 68, 68, 0.15) !important;
+  border-color: var(--error) !important;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.25) !important;
+  color: white !important;
+}
+
+.option-card.incorrect .option-badge {
+  background: var(--error) !important;
+  border-color: var(--error) !important;
+  color: white !important;
+}
+
+/* Typed answer input field */
+.text-answer-form {
+  margin-bottom: 24px;
+}
+
+.text-answer-input {
   width: 100%;
-  height: 34%;
-  top: 66%;
-
-  background: linear-gradient(91.23deg, #f35325 0%, #f3ad25 131.71%);
-  border-radius: 0px 0px 5px 5px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  color: white;
+  font-family: var(--font-main);
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s;
+  margin-bottom: 16px;
 }
 
-.icon {
-  position: relative;
-  bottom: 50%;
+.text-answer-input:focus {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+}
+
+/* Hint panel */
+.stuck-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.stuck-text {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.hint-btn {
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  font-weight: 600;
+  font-size: 13px;
+  padding: 8px 18px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.hint-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--text-primary);
+}
+
+/* Visual Overlay Feedbacks (Success / Failure) */
+.feedback-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px;
+  border-radius: 0 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.feedback-overlay.win {
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0) 0%, rgba(16, 185, 129, 0.25) 100%);
+  border-top: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.feedback-overlay.lose {
+  background: linear-gradient(180deg, rgba(239, 68, 68, 0) 0%, rgba(239, 68, 68, 0.25) 100%);
+  border-top: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.feedback-anim {
+  margin-top: -60px;
+  margin-bottom: 12px;
+  background: var(--bg-secondary);
+  border-radius: 50%;
+  padding: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.feedback-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.feedback-overlay.win .feedback-title {
+  color: #34d399;
+}
+
+.feedback-overlay.lose .feedback-title {
+  color: #f87171;
+}
+
+/* Modal Overlay Styles for Hint */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(7, 4, 18, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 1500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.25s ease forwards;
+}
+
+.hint-modal {
+  max-width: 450px;
+  width: 90%;
+  padding: 28px;
+  text-align: center;
+  animation: popIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hint-icon {
+  font-size: 32px;
+  color: var(--accent-cyan);
+  margin-bottom: 16px;
+}
+
+.hint-modal h3 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.hint-content {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.close-modal-btn {
+  background: var(--accent-cyan);
+  color: var(--text-dark);
+  font-family: var(--font-main);
+  font-weight: 700;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+}
+
+.close-modal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.45);
 }

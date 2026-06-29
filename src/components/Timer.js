@@ -1,74 +1,63 @@
-import React, {
-  useState,
-  useEffect,
-  forwardRef,
-  useImperativeHandle,
-} from 'react';
-
+import React, { useState, useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
 import './timer.css';
 
 const Timer = forwardRef((props, ref) => {
+  const { duration = 20, onTimeout, timeValue } = props;
+  const [counter, setCounter] = useState(duration);
   const [isActive, setIsActive] = useState(true);
-  const [sec, setSec] = useState('00');
-  const [min, setMin] = useState('00');
-  const [counter, setCounter] = useState(0);
+
+  // Sync ref to avoid stale closure warning inside useEffect
+  const onTimeoutRef = useRef(onTimeout);
+  useEffect(() => {
+    onTimeoutRef.current = onTimeout;
+  }, [onTimeout]);
 
   useEffect(() => {
     let intervalId;
-    if (isActive) {
+    if (isActive && counter > 0) {
       intervalId = setInterval(() => {
-        const second = counter % 60;
-        const minute = Math.floor(counter / 60);
-
-        let seconds = String(second).length === 1 ? `0${second}` : second;
-
-        let minutes = String(minute).length === 1 ? `0${minute}` : minute;
-
-        setSec(seconds);
-        setMin(minutes);
-        setCounter((counter) => counter + 1);
+        setCounter((c) => c - 1);
       }, 1000);
+    } else if (counter === 0 && isActive) {
+      setIsActive(false);
+      if (onTimeoutRef.current) {
+        onTimeoutRef.current();
+      }
     }
     return () => {
       clearInterval(intervalId);
     };
-  }, [isActive, sec, counter]);
+  }, [isActive, counter]);
 
   useImperativeHandle(ref, () => ({
-    onStartHandler,
-    onPauseHandler,
-    onReset,
+    onStartHandler: () => {
+      setIsActive(true);
+    },
+    onPauseHandler: () => {
+      setIsActive(false);
+      if (timeValue) {
+        const elapsed = duration - counter;
+        timeValue(0, elapsed);
+      }
+    },
+    onReset: () => {
+      setCounter(duration);
+      setIsActive(false);
+    },
   }));
-  const onStartHandler = () => {
-    setIsActive(true);
-  };
-  const onPauseHandler = () => {
-    setIsActive(false);
-    props.timeValue(parseInt(min), parseInt(sec));
+
+  const formatTime = (secs) => {
+    const s = secs % 60;
+    const m = Math.floor(secs / 60);
+    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
   };
 
-  const onReset = () => {
-    setIsActive(false);
-    setCounter(0);
-    setMin('00');
-    setSec('00');
-  };
+  const isWarning = counter <= 5;
 
   return (
-    <div className="box">
-      <div className="innerL">
-        <span>{min}</span>
-        <h3>Min</h3>
-      </div>
-      <span className="semiColon"> : </span>
-      <div className="innerR">
-        <span>{sec}</span>
-        <h3>sec</h3>
-      </div>
-      {/* <div>
-        <button onClick={onStartHandler}>{isActive ? 'Pause' : 'Start'}</button>
-        <button onClick={onReset}>Reset</button>
-      </div> */}
+    <div className={`timer-container ${isWarning ? 'warning' : ''}`}>
+      <span className="timer-icon">⏱️</span>
+      <span className="timer-text">{formatTime(counter)}</span>
     </div>
   );
 });

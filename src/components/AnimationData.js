@@ -1,23 +1,30 @@
-import React from 'react';
-import Lottie from 'react-lottie';
-import * as rightAnimation from '../UI/lottie/right.json';
-import * as wrongAnimation from '../UI/lottie/wrong.json';
+import React, { useEffect, useRef } from 'react';
+import lottie from 'lottie-web';
+import rightAnimation from '../UI/lottie/right.json';
+import wrongAnimation from '../UI/lottie/wrong.json';
 
 const AnimationData = (props) => {
-  //   const [isActive, setIsActive] = useState(false);
+  const containerRef = useRef(null);
 
-  const ShowAnimation = props.result ? rightAnimation : wrongAnimation;
+  useEffect(() => {
+    if (!containerRef.current) return;
 
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: ShowAnimation,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-    },
-  };
+    const showAnimation = props.result ? rightAnimation : wrongAnimation;
 
-  return <Lottie options={defaultOptions} height={190} width={190} />;
+    const anim = lottie.loadAnimation({
+      container: containerRef.current,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      animationData: showAnimation,
+    });
+
+    return () => {
+      anim.destroy();
+    };
+  }, [props.result]);
+
+  return <div ref={containerRef} style={{ width: 190, height: 190, margin: '0 auto' }} />;
 };
 
 export default AnimationData;
